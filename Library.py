@@ -41,13 +41,19 @@ class Student(Member):
 class FacultyMember(Member):
     def __init__(self, fname, lname, member_id, borrow_limit, borrowed_book):
         super().__init__(fname,lname,member_id,borrow_limit,borrowed_book)
-        self.borrow_limit = 2
+        self.borrow_limit = 5
 
 
 
 
 class Transaction:
-    pass
 
+    def __init__(self, member, book, borrowed_date, return_date):
+        self.member = member
+        self.book = book
+        self.borrowed_date = borrowed_date
+        self.return_date = return_date
+
+        
 
 
