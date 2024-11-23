@@ -1,16 +1,32 @@
+class Library:
+    pass
+
+
 class Book:
 
-    def __init__(self, title, author, isbn, is_available):
+    def __init__(self, title, author, isbn, is_available, how_borrow):
         self.title = title
         self.author = author
         self.isbn = isbn
         self.is_available = is_available
+        self.how_borrow = None
 
-    def borrow(self):
-        pass
 
-    def return_book(self):
-        pass
+    def available_book(self,book):
+        if book.is_available() == True:
+            return False
+        else:
+            return True
+
+    def borrow(self,book):
+        if book.available_book():
+            book.is_available = False
+        else:
+            print("Book is not available")
+
+    def return_book(self,book):
+        book.is_available = True
+
 
 
 class Member:
@@ -23,10 +39,17 @@ class Member:
         self.borrowed_book = borrowed_book
 
     def borrow_book(self, book):
-        pass
+        if self.borrowed_book <= self.borrow_limit:
+            self.borrowed_book = self.borrowed_book+1
+            book.how_borrow = self.member_id
+        else:
+            print('cannot borrow anymore')
+            return
+
+
 
     def return_book(self, book):
-        pass
+        self.borrowed_book = self.borrowed_book-1
 
 
 
@@ -54,6 +77,13 @@ class Transaction:
         self.borrowed_date = borrowed_date
         self.return_date = return_date
 
-        
 
+    def proccess_borrow(self,member,book):
+        book.borrow()
+        member.borrow_book(book)
+
+
+    def proccess_return(self,member,book):
+        book.return_book()
+        member.return_book(book)
 
