@@ -1,3 +1,7 @@
+import LibraryExceptions
+from LibraryExceptions import LimitExceededError
+
+
 class Library:
     pass
 
@@ -22,7 +26,7 @@ class Book:
         if book.available_book():
             book.is_available = False
         else:
-            print("Book is not available")
+            raise LimitExceededError("book is not availbale at the moment");
 
     def return_book(self,book):
         book.is_available = True
@@ -43,7 +47,7 @@ class Member:
             self.borrowed_book = self.borrowed_book+1
             book.how_borrow = self.member_id
         else:
-            print('cannot borrow anymore')
+            raise LimitExceededError("cannot borrow book until the returning of the books that he have")
             return
 
 
