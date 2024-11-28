@@ -1,3 +1,5 @@
+from matplotlib.style import available
+
 import LibraryExceptions
 from LibraryExceptions import LimitExceededError
 
@@ -5,25 +7,28 @@ from LibraryExceptions import LimitExceededError
 class Book:
 
     #book constructor
-    def __init__(self, title, author, isbn, is_available, how_borrow):
+    def __init__(self, title, author, isbn, is_available,available_amount, how_borrow):
         self.title = title
         self.author = author
         self.isbn = isbn
         self.is_available = is_available
+        self.available_amount = available_amount
         self.how_borrow = None
 
 
     #check if book is available
-    def available_book(self,book):
-        if book.is_available() == True:
-            return False
+    def available_book(self):
+        if self.available_amount > 0:
+           self.is_available = True
         else:
-            return True
+           self.is_available = False
+
+        return self.is_available
 
     #updat borrowed book
-    def borrow(self,book):
-        if book.available_book():
-            book.is_available = False
+    def borrow(self):
+        if self.available_book():
+            self.available_amount -= 1
         else:
             raise LimitExceededError("book is not availbale at the moment");
 
@@ -68,7 +73,7 @@ class Student(Member):
     def __init__(self, fname, lname, member_id, borrow_limit, borrowed_book):
         super().__init__(fname,lname,member_id,borrow_limit,borrowed_book)
         self.borrow_limit = 2
-
+        self.position = "student"
 
 """
 creating the class student that represent member at tghe library
@@ -80,7 +85,7 @@ class FacultyMember(Member):
     def __init__(self, fname, lname, member_id, borrow_limit, borrowed_book):
         super().__init__(fname,lname,member_id,borrow_limit,borrowed_book)
         self.borrow_limit = 5
-
+        self.position = "faculty member"
 
 
 #creating the class transcript
