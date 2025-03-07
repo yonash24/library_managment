@@ -1,5 +1,3 @@
-from matplotlib.style import library
-
 import  LibraryExceptions
 import LibraryModels
 
@@ -31,7 +29,7 @@ class libraryControllers:
 
 
     #Register members as StudentMember or FacultyMember
-    #sort the by they first name
+    #sort them by theire first name
     def register_member(self,member):
             author = member.member.fname
             if (len(self.library_members) == 0):
@@ -65,12 +63,29 @@ class libraryControllers:
 
 
 
-    #Update book availability and remove from member’s borrowed books
-    def process_returning(self,book,member):
-        pass
+    # Processes the return of a book
+    def process_returning(self, book_title, member):
+        for book in member.borrowed_books:
+            if book.title.lower() == book_title.lower():
+                member.return_book(book)
+                book.return_book()
+                print(f"{member.fname} returned '{book.title}'")
+                return
+        print("This book was not borrowed by the member.")
 
-    #Search for books by title, author, or ISBN and give information about him
-    def search_book(self):
-        pass
+    # Searches for a book by title, author, or ISBN and returns matching books
+        results = []
+    def search_book(self, query):
+        results = []
+        query = query.lower()
+        for book in self.library_books:
+            if (query in book.title.lower()) or (query in book.author.lower()) or (query in book.isbn):
+                results.append(book)
 
+        if results:
+            print("Search results:")
+            for book in results:
+                print(f"- {book.title} by {book.author} (ISBN: {book.isbn}) - {'Available' if book.is_available else 'Not Available'}")
+        else:
+            print("No matching books found.")
 
