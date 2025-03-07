@@ -1,5 +1,3 @@
-from matplotlib.style import available
-
 import LibraryExceptions
 from LibraryExceptions import LimitExceededError
 
@@ -7,11 +5,11 @@ from LibraryExceptions import LimitExceededError
 class Book:
 
     #book constructor
-    def __init__(self, title, author, isbn, is_available,available_amount, how_borrow):
+    def __init__(self, title, author, isbn,available_amount):
         self.title = title
         self.author = author
         self.isbn = isbn
-        self.is_available = is_available
+        self.is_available = None
         self.available_amount = available_amount
         self.how_borrow = None
 
@@ -26,15 +24,17 @@ class Book:
         return self.is_available
 
     #updat borrowed book
-    def borrow(self):
+    def borrow(self,name):
         if self.available_book():
             self.available_amount -= 1
+            self.how_borrow = name
         else:
             raise LimitExceededError("book is not availbale at the moment");
 
     #update the return of the book
     def return_book(self,book):
-        book.is_available = True
+        self.book.is_available = True
+        self.book.available_amount += 1
 
 
 #creating the class member that reprasent a member at the library
@@ -102,10 +102,10 @@ class Transaction:
     #update in the system the proccess of borrowing book
     def proccess_borrow(self,member,book):
         book.borrow()
-        member.borrow_book(book)
+        self.member.borrow_book(book)
 
     #update in the system the proccess of returnnig a book
     def proccess_return(self,member,book):
         book.return_book()
-        member.return_book(book)
+        self.member.return_book(book)
 
